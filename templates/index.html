@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Weather Prediction</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Type Prediction</h1>
+        <form action="/predict" method="post">
+            <input type="number" name="temperature" placeholder="Temperature (°C)" required>
+            <input type="number" name="humidity" placeholder="Humidity (%)" required>
+            <input type="number" name="wind_speed" placeholder="Wind Speed (km/h)" required>
+            <input type="number" name="precipitation" placeholder="Precipitation (%)" required>
+            <select name="cloud_cover" required>
+                <option value="" disabled selected>Cloud Cover</option>
+                <option value="clear">Clear</option>
+                <option value="overcast">Overcast</option>
+                <option value="partly cloudy">Partly Cloudy</option>
+            </select>
+            <input type="number" name="atmospheric_pressure" placeholder="Atmospheric Pressure (hPa)" required>
+            <input type="number" name="uv_index" placeholder="UV Index" required>
+            <select name="season" required>
+                <option value="" disabled selected>Season</option>
+                <option value="Winter">Winter</option>
+                <option value="Spring">Spring</option>
+                <option value="Summer">Summer</option>
+                <option value="Autumn">Autumn</option>
+            </select>
+            <input type="number" name="visibility" placeholder="Visibility (km)" required>
+            <select name="location" required>
+                <option value="" disabled selected>Location</option>
+                <option value="coastal">Coastal</option>
+                <option value="inland">Inland</option>
+                <option value="mountain">Mountain</option>
+            </select>
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>
