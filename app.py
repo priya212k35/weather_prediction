@@ -5,7 +5,7 @@ import joblib
 app = Flask(__name__)
 
 # Load the model
-model = joblib.load('weather_model.joblib')
+model = joblib.load('weather_model.pkl')
 
 # Load the label encoders
 le_location = joblib.load('model/le_location.joblib')
