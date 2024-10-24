@@ -43,6 +43,6 @@ print(classification_report(y_test, y_pred))
 print("Accuracy Score:", accuracy_score(y_test, y_pred))
 
 # Save the model to a file
-model_filename = 'weather_model.joblib'  # You can specify a different filename
+model_filename = 'weather_model.pkl'  # You can specify a different filename
 joblib.dump(model, model_filename)
 print(f"Model saved to {model_filename}")
