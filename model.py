@@ -43,9 +43,9 @@ print("Accuracy Score:", accuracy_score(y_test, y_pred))
 
 # Save the model and encoders
 joblib.dump(model, 'weather_model.pkl')
-joblib.dump(le_location, 'model/le_location.pkl')
-joblib.dump(le_weather_type, 'model/le_weather_type.pkl')
-joblib.dump(le_cloud_cover, 'model/le_cloud_cover.pkl')
-joblib.dump(le_season, 'model/le_season.pkl')
+joblib.dump(le_location, 'model/le_location.joblib')
+joblib.dump(le_weather_type, 'model/le_weather_type.joblib')
+joblib.dump(le_cloud_cover, 'model/le_cloud_cover.joblib')
+joblib.dump(le_season, 'model/le_season.joblib')
 
 print("Model and encoders saved.")
