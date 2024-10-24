@@ -3,14 +3,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-import joblib  # Import joblib to save the model
+import joblib
 
-# Load the dataset from a CSV file
-file_path = 'data/weather_data.csv'  # Update this path to your dataset
+# Load the dataset
+file_path = 'data/weather_data.csv'  # Path to your dataset
 df = pd.read_csv(file_path)
 
-# Preprocessing
-# Convert categorical variables to numerical
+# Label encode categorical variables
 le_location = LabelEncoder()
 le_weather_type = LabelEncoder()
 le_cloud_cover = LabelEncoder()
@@ -21,7 +20,7 @@ df['Weather Type'] = le_weather_type.fit_transform(df['Weather Type'])
 df['Cloud Cover'] = le_cloud_cover.fit_transform(df['Cloud Cover'])
 df['Season'] = le_season.fit_transform(df['Season'])
 
-# Split the data into features and target
+# Split data into features (X) and target (y)
 X = df.drop('Weather Type', axis=1)
 y = df['Weather Type']
 
@@ -32,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
-# Predictions
+# Make predictions
 y_pred = model.predict(X_test)
 
 # Evaluate the model
@@ -42,7 +41,11 @@ print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
 print("Accuracy Score:", accuracy_score(y_test, y_pred))
 
-# Save the model to a file
-model_filename = 'weather_model.pkl'  # You can specify a different filename
-joblib.dump(model, model_filename)
-print(f"Model saved to {model_filename}")
+# Save the model and encoders
+joblib.dump(model, 'weather_model.pkl')
+joblib.dump(le_location, 'model/le_location.pkl')
+joblib.dump(le_weather_type, 'model/le_weather_type.pkl')
+joblib.dump(le_cloud_cover, 'model/le_cloud_cover.pkl')
+joblib.dump(le_season, 'model/le_season.pkl')
+
+print("Model and encoders saved.")
