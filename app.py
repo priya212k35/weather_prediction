@@ -1,17 +1,28 @@
 import pandas as pd
 from flask import Flask, render_template, request
 import joblib
+import os
 
 app = Flask(__name__)
 
-# Load the model
-model = joblib.load('weather_model.pkl')
+# Function to safely load a model
+def safe_load_model(file_path):
+    if os.path.exists(file_path):
+        try:
+            return joblib.load(file_path)
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            return None
+    else:
+        print(f"Model file {file_path} not found")
+        return None
 
-# Load the label encoders
-le_location = joblib.load('model/le_location.joblib')
-le_weather_type = joblib.load('model/le_weather_type.joblib')
-le_cloud_cover = joblib.load('model/le_cloud_cover.joblib')
-le_season = joblib.load('model/le_season.joblib')
+# Load the models and encoders
+model = safe_load_model('weather_model.pkl')
+le_location = safe_load_model('model/le_location.joblib')
+le_weather_type = safe_load_model('model/le_weather_type.joblib')
+le_cloud_cover = safe_load_model('model/le_cloud_cover.joblib')
+le_season = safe_load_model('model/le_season.joblib')
 
 @app.route('/')
 def home():
@@ -19,6 +30,9 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    if not model or not all([le_location, le_weather_type, le_cloud_cover, le_season]):
+        return "Model or encoders not loaded properly"
+
     # Get input data from the form
     temperature = float(request.form['temperature'])
     humidity = float(request.form['humidity'])
@@ -45,8 +59,11 @@ def predict():
                                         'Season', 'Visibility (km)', 'Location'])
 
     # Make prediction
-    prediction = model.predict(input_data)
-    predicted_weather = le_weather_type.inverse_transform(prediction)[0]
+    try:
+        prediction = model.predict(input_data)
+        predicted_weather = le_weather_type.inverse_transform(prediction)[0]
+    except Exception as e:
+        return f"Error during prediction: {e}"
 
     return render_template('result.html', prediction=predicted_weather)
 
