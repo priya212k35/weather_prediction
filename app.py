@@ -19,10 +19,10 @@ def safe_load_model(file_path):
 
 # Load the models and encoders
 model = safe_load_model('weather_model.pkl')
-le_location = safe_load_model('model/le_location.joblib')
-le_weather_type = safe_load_model('model/le_weather_type.joblib')
-le_cloud_cover = safe_load_model('model/le_cloud_cover.joblib')
-le_season = safe_load_model('model/le_season.joblib')
+le_location = safe_load_model('model/le_location.pkl')
+le_weather_type = safe_load_model('model/le_weather_type.pkl')
+le_cloud_cover = safe_load_model('model/le_cloud_cover.pkl')
+le_season = safe_load_model('model/le_season.pkl')
 
 @app.route('/')
 def home():
